@@ -1,0 +1,274 @@
+Telepítés:
+
+két mappa:
+
+client
+npmx create-react-app .
+npm i bootstrap
+npm i axios
+
+
+server
+npm init -y
+npm i express
+npm i nodemon
+npm i cors
+npm i mysql
+
+Törölni cliens oldalon:
+src/
+logo.svg
+reportWebVitals.js
+setupTests.js
+App.test.js
+index.css
+(gitingore)
+index.js-ből kommmenteket plusz reportWebVitals()
+index.js-ből hivatkozások közül törölni ami nem kell
+App.css.ből törölni formázást, de a fájlt meghagyni
+App.js-ből törölni felesleges hivatkozásokat és a returnben csak egy üres divet meghagyni
+
+img mappa megy be a cliens oldal src mappába egy az egyben
+
+Projekt címét a cliens/public mappában található index.html fájlban tudom beállítani, a megjegyzéseket ebből is ki kell törölni -> title-ba betenni a címet amit megadtak (itt az általuk készített index.html-ben volt)
+
+App.js-ben kezdünk dolgozni, ehhez kell a bootstrap-et importálni a node module-ból:
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+
+Cliens oldalt elindítani: npm run start
+
+Kezdjük el kialaítani a containereket a minta alapján, de ne az egészet illesszük be a megadott index.html-ből, csak darabokat vágjunk ki, valószínűleg az is tele lesz hibával.
+
+Ha több elemnek is egy sorban kell lennie, akkor mindenki aki egy sorba tartozik legyen egy <div className="row">-ban utána külön-külön minden elem is egy div-ben van, ezek között kell felosztani arányosan a 12 cellát pl.: <div className="col-md-8"> <div className="col-md-4">
+
+Ha a sorok között van szünet akkor az a margin: pl.: mt-2 margin top 2 egység vagy mb-2 margin bottom 2 egység
+
+Header kép behúzása css-be: background-image: url(img/top.png) - a kép elérési útja az App.css-hez képest
+background-repeat: no-repeat; - ne ismétlődjön
+background-position: center center; - középen legyen vízszintesen és függőlegesen is
+background-size: cover; - eltakarja a rendelkezésre álló helyet
+
+Ha a linknek egy új böngésző ablakban kell megjelennije: target="_blank"
+Ha a linkek nincsenek aláhúzva: css-ben 
+a {
+  text-decoration: none;
+}
+
+Kép linkjének beillesztése az src/img mappából: import  kep1 from './img/20190507PHT44968_original.jpg'
+Azaz import képneve(ahogyan mi elneveztük a kódban) from 'elérési út az App.js-hez képest/képténylegesneve.jpg vagy png vagy akármi'
+Kép általános formázása: <img className="img-fluid border border-színe rounded" src={képneve}/>
+
+Ha egy legördülő menüt kell készítenünk és azt szeretnénk, hogy kitöltse a rendelkezésre álló teret: 
+<select className="form-select"></select>
+
+Legördülő menü programozott létrehozása:
+<option value="0">Válassz évet</option>
+{eladasok.map(obj=><option key={obj.ev} value={obj.ev}>{obj.ev}</option>)}
+
+Ehhez létre kell hozzni a State válzotóit a beérkező adtoknak. Értelemszerű elnevezések legyenek!
+const [eladasok,setEladasok]=useState([]) //[] adatok tömbjét várjuk, egy listát
+
+Ahhoz, hogy a komponens betöltődésekor az adatokat megkapjuk a server-től:
+useEffect(()=>{
+const url="http://localhost:5000/eladas" //melyik url-ről várjuk az adatokat, ezt adjuk meg server oldalon és ezt teszteljük Postman-ben is
+fetchEladasok(url) //ez az asszinkron fv felelős az adatok betöltéséért
+},[]) //[] - csak akkor fut le a useEffectm amikor betöltődik az oldal
+
+Az asszinkron fv létrehozása:
+const fetchEladasok=async (url)=>{
+        const resp=await axios.get(url)
+        console.log(resp.data) //kiíratjuk conlose-ra, hogy lássuk megérkeznek-e az adatok server oldalról
+        setEladasok(resp.data)
+    }
+
+Az adatok bevarázsolása a legördülő menübe, jsx szintaxissal, mappolással:
+{eladasok.map(obj=><option key={obj.ev} value={obj.ev}>{obj.ev}</option>)} //a state változó nevével kezdjük melyiktömbötjárjukbe.map(objektumok vannak a tömbben=>és ezeket szeretnénk egy option legördülő menüben megjeleníteni: <option>{obj.ev}</option> az évet szeretnénk kiiratni.
+key={obj.ev} egységes azonosító is az év
+value={obj.ev} kell majd egy onChange esemény is, amire feliratkozunk, ami elmenti, hogy melyik lehetőséget választotta kis a felhasználó, ez általában az id szokott lenni
+Példa id-s mappolásra: {tipusok.map(obj=><option key={obj.id} value={obj.id}>{obj.nev}</option>)}
+
+
+Az onChange esemény új state változóba fogja elmenteni a felhasználó által kiválasztott lehetőséget.
+pl.: const [selEv,setSelEv]=useState(0) //kezdetben nulla az értéke, ezt adtuk meg, ekkor az előre definiált szöveg jelenik meg
+Most feliratokzunk az onChange eseményre, amit beteszünk a mappolást tartalmazó selectbe: <select className="form-select" onChange={(e)=>setSelEv(e.target.value)}>
+
+(e) - az esemény objektum
+setSelEv(e.target.value) - a setSelEv fv-nek átadjuk az eseményben kiválasztott értéket (amire a felhasználó rábökött)
+
+
+Gomb programozott létrehozása:
+<div className="btn btn-outline-secondary m-2" onClick={handleClick}>Gombszövege</div>
+
+const handleClick=()=>{
+console.log(selEv) //megnézzük, hogy a state változó megkapta-e a felhasználó által kiválasztott értéket (jelen esetben évet)
+let newArr=eladasok.filter(obj=>obj.ev==selEv) //ha console-ra megérkezik a választott év, akkor arra leszűrjük az eladások tömböt, ami ugye az összes adatot tartalmazza, amit a servertől lekérdezünk
+console.log(newArr[0]) //ellenőrizzük, hogy megszületett-e a leszűrt tömb, nekünk csak a tömb első sora kell
+}
+
+A handleClick kicsit másképp működik, ha több adatot kaphat és azokat kell megjelenítenie:
+const handleClick=()=>{
+        console.log(selTipus)
+        const url=`http://localhost:5000/toplista/${selTipus}`
+        fetchSelTipusok(url)
+    }
+    const fetchSelTipusok=async (url)=>{ //ilyenkor ezeket is végig kell fetchelni
+        const resp=await axios.get(url)
+        console.log(resp.data)
+        setSelTipusok(resp.data)
+    }
+
+
+Ha egy html táblázatban szeretnénk megjeleníteni a kiválasztott lehetőséghez (jelen esetben év) tartozó adatokat:
+ennek is kell egy state változó:
+const [selEladas,setSelEladas]=useState(null) //egy darab objektumot várunk vissza, ami alapértelmezettként null, ha nincs érték kiválasztva, a kiválasztott évhez tartozó adatokat tartalmazza, a setSelEladas fv-nek fogjuk átadni ezt az objektumot
+
+A html táblázatban megjelenítendő adatokat a newArr tartalmazza, ezt kell átadnunk a selEladas state változó módosító fvének:
+setSelEladas(newArr[0])
+
+A megjelenítendő adatokat pakoljuk be egy táblázatba: //feltételes renderelés, ha a selEladas nem nulla (márpedig default állapotában null értékkel adtuk meg a state változót), tehát a felhasználó kiválasztott egy évet, akkor jelenik meg a táblázat
+  {selEladas &&
+                <table className="table table-striped">
+                    <thead>
+                     <tr>
+                        <th>Dátum</th>
+                        <th>Elektromos</th>
+                        <th>Hagyományos</th>
+                        <th>Növekedés</th>
+                     </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{selEladas.ev}</td>
+                            <td>{selEladas.elektromos}</td>
+                            <td>{selEladas.hagyomanyos}</td>
+                            <td>{selEladas.novekedes}</td>
+                        </tr>
+                    </tbody>
+                </table>
+     }
+
+
+Ha listát szeretnénk megjeleníteni:
+ul.list-group>li.list-group-item*sorokszáma
+
+Ha több dolgot is renderelünk egy komponensben, akkor használjunk React fragment-et:
+<></>
+
+A dinamikus részeket komponensekbe szervezzük ki:
+egy komponens kezdeti kinézete:
+
+export const Komponensneve=()=>{
+return (
+	<div>
+	komponensneve...
+	</div>
+	)
+}
+
+Általában egy komponens az alábbi könyvtárakat használja:
+import React, {useSate,useEffect} from "react";
+import axios from 'axios' - szerver lekérdezések miatt
+
+Az összes komponenst be kell importálni az App.js-be:
+import {Komponensneve} from './components/Komponensneve' - komponens elérési útja az App.js-hez képest
+
+SZERVER OLDAL felépítése:
+Kezdésnek létrehozzuk a configDB.js fájlt
+Ebbe bemásoljuk:
+
+const configDb={
+    host : 'localhost',
+    user: 'root',
+    password: '',
+    database:'adatbazisneve'
+
+}
+
+module.exports=configDb
+
+Neten megtalálod: rákeresni npm mysql ->találati lista első hely:  mysql - npm homepage-ükre rá, ott Introduction cím alól lehet kicopyzni
+Kész!
+
+ÍRJUNK SZERVERT!
+
+Létrehozzuk az index.js fájl, ebben lesz a szerver.
+
+Amire szüksége van a működéshez:
+const express = require('express') //express keretrendszerben futtatjuk
+const cors = require('cors') //routok közötti kommunikációt biztosítja
+const mysql = require('mysql') //adatbázis kapcsolathoz kell
+const configDb = require('./configDb') //adatbázisunk paraméterei
+
+const db=mysql.createConnection(configDb) //ez maga a szerver adatbázis kapcsolat deklarálása
+
+const app = express() //ez a szerver
+
+amiket használnia kell:
+app.use(cors())
+app.use(express.json()) //az adatok json formátumban közlekedjenek
+
+app.listen(5000,()=>console.log('listening on port 5000...')) // így indítjuk el a szervert, hogy 'hallgatózzon'
+
+API-k írása:
+adatbázisból lekérdezések írása:
+
+app.get('/lekérdezésneve(root)',req,res)=>{ 	//callback fv
+const sql="select megjeleníteni kívánt adatok from táblaneve order by vmi szerint (pl. év)"
+db.query(sql,(err,result)=>{ //átadjuk a query metódusnak az sql változót
+        if(err) console.log(err)
+        if(result) resp.status(200).send(result)
+    })
+})
+
+A myblogban picit másképp írtuk:
+
+app.get('/lekérdezésneve(ez lesz az elérési útja)',(req,res)=>{
+    db.query(`select megjeleníteni kívánt adatok from táblaneve order by vmi szerint (pl. év)`,(err,results)=>{
+                if(err) 
+                    console.log(err)
+                else
+                    res.status(200).send(results)
+            })
+})
+
+Ha id-t kapunk a felhasználótól és csak az ahhoz tartozó adatot/adatokat szeretnénk megjeleníteni:
+app.get('/lekérdezésneve/:id'(ez lesz az elérési útja),(req,resp)=>{
+    const {id}=req.params
+    const sql=`SELECT a lekérdezni kívánt adatok esetleg itt már 2 táblából kell szemezni pl.:a.mennyiseg,b.nev from eu_eladas_data a,etipusok b where a.etipusID=b.id (ez az összekötés módja, melyik kezőjuk ugyan az) and b.id='${id}'` ez az id változik aszerint, hogy mit választ a felhasználó. Az egész backtick-ben kell legyen! Itt az id csak azért van aposztrófban, mert kivételesen string és nem szám, erre is figyelni kell!
+    db.query(sql,(err,result)=>{
+        if(err) console.log(err)
+        if(result) resp.status(200).send(result)
+    })
+})
+
+
+Ellenőrzés POSTMAN-ban, jelentés kiexportálása:
+Hozzunk létre egy új Collections-t (My Workspace-ben plusz jel)
+Nevezzük át(adatbázis neve), ha rávisszük az egeret sor végén megjelenik 3 pötty, arra katt -> Add request (ezt is nevezzük át a lekérdezés nevére)
+
+Enter request url: http://localhost:5000/lekérdezésneve
+
+Ha rendben megjöttek az adatok fönt van egy Save gomb!
+
+Az összes API-ra készítsünk ilyen ellenőrzést és menstük el, majd a Collection nevére állva (jelen esetben eauto) a 3 pöttyre kattintva van olyan, hogy Export itt válasszuk a recommended-et és mentsük le a megoldás mellé
+
+
+MUNKA ELMENTÉSE
+
+cliens oldalról kell:
+public
+src
+package
+package-lock
+
+server oldalról kell:
+index
+configDb
+package-lock
+package
+
+Plusz Postman export
+
+mind a 3mat kijelölni és összetömöríteni
+
+

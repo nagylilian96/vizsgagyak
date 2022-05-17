@@ -1,0 +1,43 @@
+.bg-fej {
+    font-size: 50%;
+    height: 320px;
+    background-image: url(img/top.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.bg-fej h2 {
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.bg-fej h3 {
+    color: black;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.container {
+    margin-bottom: 25px;
+}
+
+.bg-torzs {
+    background-color: #C5C599;
+    align-content: center;
+}
+
+h3 {
+    margin: 25px 0px;
+}
+
+a {
+    font-style: italic;
+    font-weight: bold;
+    color: darkblue;
+    text-decoration: none;
+}
+.hatterszin{
+  background-color:#C5C599;
+}

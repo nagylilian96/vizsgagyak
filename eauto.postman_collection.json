@@ -1,0 +1,67 @@
+{
+	"info": {
+		"_postman_id": "902b9646-abb2-48c4-bf9c-67ca8e475454",
+		"name": "eauto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "eladas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/eladas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"eladas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "toplista",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/toplista",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"toplista"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "toplista/bi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/toplista/bi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"toplista",
+						"bi"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
