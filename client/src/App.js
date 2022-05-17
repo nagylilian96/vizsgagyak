@@ -15,7 +15,7 @@ function App() {
       <div className="row mt-2">
         <div className="col-md-8">
           <h2>
-            <a target="_blank" href="https://www.europarl.europa.eu/news/hu/headlines/society/20190313STO31218/
+            <a target="blank" href="https://www.europarl.europa.eu/news/hu/headlines/society/20190313STO31218/
                     amit-erdemes-tudni-a-gepjarmuvek-szen-dioxid-kibocsatasarol-az-eu-ban#website-body"
             >Az autók a legfőbb szennyezők.</a>
           </h2>
@@ -23,7 +23,7 @@ function App() {
             A személyszállításból származó szén-dioxid-kibocsátás aránya jelentősen eltér az egyes közlekedési eszközöket tekintetében.
             A személygépjárművek a leginkább szennyezőek, az európai közúti közlekedésből adódó teljes szén-dioxid-kibocsátás 60,7 százalékáért felelősek.
             Az sem mindegy azonban, hogy hány utast szállít egy-egy autó: ha többet és nem egyedül utazik a sofőr, akkor a legkevésbé szennyező járművek közé tartozhat. Európában azonban átlagosan csupán
-            <a href="https://core.ac.uk/download/pdf/82726264.pdf" target="">1,7 utast szállít egy autó</a>, így pedig más közlekedési eszközök, mint például a buszok, jelenleg kevésbé káros alternatívát jelentenek.
+            <a href="https://core.ac.uk/download/pdf/82726264.pdf" target="blank">1,7 utast szállít egy autó</a>, így pedig más közlekedési eszközök, mint például a buszok, jelenleg kevésbé káros alternatívát jelentenek.
             Azt a kérdés viszont, hogy egy autó mennyi szén-dioxidot bocsájt ki, nemcsak használatuk közben kell feltennünk, hanem az előállításuk és szállításuk során is.
             Az elektromos autók előállítása és szállítása kevésbé környezetkímélő, mint a belsőégésű motorral rendelkező autóké, az elektromos gépjárművek
             szén-dioxid-kibocsátásának mértéke pedig annak megfelelően változik, hogyan állítják elő az elektromosságot.

@@ -35,7 +35,7 @@ export const Eladas=()=>{
                     A 142% növekedés azt jelenti, hogy praktikusan két és félszer annyi tölthető autó fogyott mint egy évvel korábban,
                     ami döbbenetesen jó szám. Az eladások bőven átlépték a milliós küszöböt, sőt, az 1,36 millió eladott konnektoros autó közül
                     a 9 legnépszerűbb modell, valamint az összes eladások 54%-a tisztán elektromos volt.
-                    <a href="https://villanyautosok.hu/2021/02/04/europaban-140-ot-nottek-a-villanyauto-eladasok-2020-ban/" _target="">Eredeti cikk</a></p>
+                    <a href="https://villanyautosok.hu/2021/02/04/europaban-140-ot-nottek-a-villanyauto-eladasok-2020-ban/" target="blank">Eredeti cikk</a></p>
                 <p>
                     <img className="img-fluid border border-4 border-white-rounded" src={kep2} alt="" />
                 </p>
